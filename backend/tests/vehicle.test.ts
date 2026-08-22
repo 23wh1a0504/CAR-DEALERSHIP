@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import request from "supertest";
 
 const mockPrisma = { user: { findUnique: jest.fn(), create: jest.fn() }, vehicle: { create: jest.fn(), findMany: jest.fn(), findUnique: jest.fn(), update: jest.fn(), delete: jest.fn() } };
-jest.mock("../src/utils/prisma", () => ({ __esModule: true, default: mockPrisma }));
+jest.mock("../src/utils/prisma", () => ({ __esModule: true, default: mockPrisma, assertDatabaseConfigured: jest.fn() }));
 import app from "../src/app";
 
 const vehicle = { id: 1, make: "Toyota", model: "Camry", category: "Sedan", price: 30000, quantity: 2, createdAt: new Date(), updatedAt: new Date() };
@@ -10,7 +10,7 @@ const payload = { make: "Toyota", model: "Camry", category: "Sedan", price: 3000
 const token = (role: "USER" | "ADMIN" = "USER") => jwt.sign({ id: 1, role }, "test-secret");
 
 describe("vehicle endpoints", () => {
-  beforeEach(() => { jest.clearAllMocks(); process.env.JWT_SECRET = "test-secret"; });
+  beforeEach(() => { jest.clearAllMocks(); process.env.JWT_SECRET = "test-secret"; process.env.MYSQL_PASSWORD = "test-password"; process.env.DATABASE_URL = "mysql://root:test-password@localhost:3306/test"; });
   test("requires a token", async () => expect((await request(app).get("/api/vehicles")).status).toBe(401));
   test("creates a vehicle", async () => {
     mockPrisma.vehicle.create.mockResolvedValue(vehicle);

@@ -1,5 +1,5 @@
 import type { Prisma } from "@prisma/client";
-import prisma from "../utils/prisma";
+import prisma, { assertDatabaseConfigured } from "../utils/prisma";
 import AppError from "../utils/AppError";
 
 export type VehicleInput = {
@@ -10,9 +10,13 @@ export type VehicleInput = {
   quantity: number;
 };
 
-export const createVehicle = (data: VehicleInput) => prisma.vehicle.create({ data });
+export const createVehicle = (data: VehicleInput) => {
+  assertDatabaseConfigured();
+  return prisma.vehicle.create({ data });
+};
 
 export function listVehicles(filters: { make?: string; model?: string; category?: string; minPrice?: number; maxPrice?: number }) {
+  assertDatabaseConfigured();
   const where: Prisma.VehicleWhereInput = {
     ...(filters.make && { make: { contains: filters.make } }),
     ...(filters.model && { model: { contains: filters.model } }),
@@ -25,18 +29,21 @@ export function listVehicles(filters: { make?: string; model?: string; category?
 }
 
 export async function updateVehicle(id: number, data: Partial<VehicleInput>) {
+  assertDatabaseConfigured();
   const vehicle = await prisma.vehicle.findUnique({ where: { id } });
   if (!vehicle) throw new AppError(404, "Vehicle not found");
   return prisma.vehicle.update({ where: { id }, data });
 }
 
 export async function deleteVehicle(id: number) {
+  assertDatabaseConfigured();
   const vehicle = await prisma.vehicle.findUnique({ where: { id } });
   if (!vehicle) throw new AppError(404, "Vehicle not found");
   await prisma.vehicle.delete({ where: { id } });
 }
 
 export async function purchaseVehicle(id: number) {
+  assertDatabaseConfigured();
   const vehicle = await prisma.vehicle.findUnique({ where: { id } });
   if (!vehicle) throw new AppError(404, "Vehicle not found");
   if (vehicle.quantity < 1) throw new AppError(400, "Vehicle is out of stock");
@@ -44,6 +51,7 @@ export async function purchaseVehicle(id: number) {
 }
 
 export async function restockVehicle(id: number, amount: number) {
+  assertDatabaseConfigured();
   const vehicle = await prisma.vehicle.findUnique({ where: { id } });
   if (!vehicle) throw new AppError(404, "Vehicle not found");
   return prisma.vehicle.update({ where: { id }, data: { quantity: { increment: amount } } });

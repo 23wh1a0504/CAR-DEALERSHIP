@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import request from "supertest";
 
 const mockPrisma = { user: { findUnique: jest.fn(), create: jest.fn() }, vehicle: {} };
-jest.mock("../src/utils/prisma", () => ({ __esModule: true, default: mockPrisma }));
+jest.mock("../src/utils/prisma", () => ({ __esModule: true, default: mockPrisma, assertDatabaseConfigured: jest.fn() }));
 import app from "../src/app";
 
 const registration = { name: "John", email: "john@example.com", password: "password123" };
@@ -12,6 +12,8 @@ describe("authentication endpoints", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     process.env.JWT_SECRET = "test-secret";
+    process.env.MYSQL_PASSWORD = "test-password";
+    process.env.DATABASE_URL = "mysql://root:test-password@localhost:3306/test";
     mockPrisma.user.findUnique.mockResolvedValue(null);
     mockPrisma.user.create.mockImplementation(async ({ data }) => ({ id: 1, role: "USER", ...data }));
   });
