@@ -89,8 +89,6 @@ Screenshots:
 <img width="1920" height="1020" alt="Screenshot 2026-08-22 230049" src="https://github.com/user-attachments/assets/1091fe88-5eec-48e4-84b4-a6938a03783e" />
 
 <img width="1920" height="1020" alt="Screenshot 2026-08-23 172151" src="https://github.com/user-attachments/assets/470a85d1-2c83-43de-afd8-062bacdc8e62" />
+
 <img width="1920" height="1020" alt="Screenshot 2026-08-23 172231" src="https://github.com/user-attachments/assets/cc6c9b3f-bdb7-4f04-b194-a66dc0988f61" />
 
-The suite covers registration validation and duplicates, login/JWT behavior, authentication enforcement, vehicle creation/search, purchases including the out-of-stock case, and admin authorization. Prisma is mocked in automated request tests so they are deterministic; the production app uses MySQL via Prisma.
-
-Latest local report: **15 tests passing across 3 suites**.
