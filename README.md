@@ -71,11 +71,39 @@ All vehicle requests require `Authorization: Bearer <jwt>`.
 
 ## Tests
 
+# Test Report
+
+## Backend
+
+Command:
+
 ```bash
 cd backend
 npm test
-npm run test:coverage
 ```
+
+Result:
+
+```text
+Test Suites: 3 passed, 3 total
+Tests:       15 passed, 15 total
+Snapshots:   0 total
+```
+
+The test suite completed successfully on 2026-08-23. Jest ran all three backend test suites in serial mode using the repository's `npm test` script.
+
+## TypeScript Build
+
+Command:
+
+```bash
+cd backend
+npm run build
+```
+
+Result: completed successfully with no TypeScript errors.
+
+
 ## My AI Usage
 
 I used **GitHub Copilot** as an AI coding assistant during this project. I used it to brainstorm the Express API structure, generate initial controllers, services, routes, authentication middleware, Prisma database integration, Jest tests, and the React/Tailwind frontend.
