@@ -80,17 +80,3 @@ npm run test:coverage
 The suite covers registration validation and duplicates, login/JWT behavior, authentication enforcement, vehicle creation/search, purchases including the out-of-stock case, and admin authorization. Prisma is mocked in automated request tests so they are deterministic; the production app uses MySQL via Prisma.
 
 Latest local report: **15 tests passing across 3 suites**.
-
-## My AI Usage
-
-I used **OpenAI Codex** to help scaffold the Express routes/controllers/services, Prisma/MySQL integration, Jest test cases, React/Tailwind interface, and documentation. I reviewed the generated structure, ran builds and tests, and corrected issues found during validation (TypeScript configuration and frontend type errors).
-
-AI made repetitive setup and test scaffolding faster, while the project requirements, architecture choices, validation rules, and final verification remained actively reviewed. Each AI-assisted commit should include the required co-author trailer:
-
-```text
-Co-authored-by: OpenAI Codex <ai@users.noreply.github.com>
-```
-
-## Screenshots
-
-Start both applications using the commands above, then capture the login screen, vehicle dashboard, and admin inventory form and add them to a `docs/screenshots/` directory before publishing the repository.
